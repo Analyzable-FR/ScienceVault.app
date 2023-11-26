@@ -9,7 +9,6 @@ export default function Main(props) {
 
   const onChange = (_, data) => {
     setFormState(prev => ({ ...prev, [data.state]: data.value }))
-      console.log(data)
   }
 
   const { callableOf, addressTo, amount } = formState
