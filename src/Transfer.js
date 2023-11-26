@@ -5,12 +5,14 @@ import { useSubstrateState } from './substrate-lib'
 
 export default function Main(props) {
   const [status, setStatus] = useState(null)
-  const [formState, setFormState] = useState({ addressTo: '', amount: 0 })
+  const [formState, setFormState] = useState({ callableOf: '', addressTo: '', amount: 0 })
 
-  const onChange = (_, data) =>
+  const onChange = (_, data) => {
     setFormState(prev => ({ ...prev, [data.state]: data.value }))
+      console.log(data)
+  }
 
-  const { addressTo, amount } = formState
+  const { callableOf, addressTo, amount } = formState
 
   const { keyring } = useSubstrateState()
   const accounts = keyring.getPairs()
@@ -26,7 +28,7 @@ export default function Main(props) {
 
   return (
     <Grid.Column width={8}>
-      <h1>Transfer</h1>
+      <h1>Reward</h1>
       <Form>
         <Form.Field>
           <Label basic color="teal">
@@ -44,6 +46,18 @@ export default function Main(props) {
 
         <Form.Field>
           <Dropdown
+            placeholder="Reward or Punish"
+            fluid
+            selection
+            search
+            options={[{key:"reward", text:"Reward", value:"reward"},{key:"punish", text:"Punish", value:"punish"}]}
+            state="callableOf"
+            onChange={onChange}
+          />
+        </Form.Field>
+
+        <Form.Field>
+          <Dropdown
             placeholder="Select from available addresses"
             fluid
             selection
@@ -54,17 +68,6 @@ export default function Main(props) {
           />
         </Form.Field>
 
-        <Form.Field>
-          <Input
-            fluid
-            label="To"
-            type="text"
-            placeholder="address"
-            value={addressTo}
-            state="addressTo"
-            onChange={onChange}
-          />
-        </Form.Field>
         <Form.Field>
           <Input
             fluid
@@ -80,8 +83,8 @@ export default function Main(props) {
             type="SIGNED-TX"
             setStatus={setStatus}
             attrs={{
-              palletRpc: 'balances',
-              callable: 'transfer',
+              palletRpc: 'reward',
+              callable: callableOf,
               inputParams: [addressTo, amount],
               paramFields: [true, true],
             }}
