@@ -6,22 +6,22 @@ import { useSubstrateState } from './substrate-lib'
 export default function Main(props) {
   const { api, keyring } = useSubstrateState()
   const accounts = keyring.getPairs()
-  const [balances, setBalances] = useState({})
+  const [reputation, setReputation] = useState({})
 
   useEffect(() => {
     const addresses = keyring.getPairs().map(account => account.address)
     let unsubscribeAll = null
 
-    api.query.system.account
-      .multi(addresses, balances => {
-        const balancesMap = addresses.reduce(
+    api.query.reward.reputations
+      .multi(addresses, reputations => {
+        const reputationMap = addresses.reduce(
           (acc, address, index) => ({
             ...acc,
-            [address]: balances[index].data.free.toHuman(),
+            [address]: reputations[index].unwrap().reputation.toHuman(),
           }),
           {}
         )
-        setBalances(balancesMap)
+        setReputation(reputationMap)
       })
       .then(unsub => {
         unsubscribeAll = unsub
@@ -29,11 +29,11 @@ export default function Main(props) {
       .catch(console.error)
 
     return () => unsubscribeAll && unsubscribeAll()
-  }, [api, keyring, setBalances])
+  }, [api, keyring, setReputation])
 
   return (
     <Grid.Column>
-      <h1>Balances</h1>
+      <h1>Reputation</h1>
       {accounts.length === 0 ? (
         <Label basic color="yellow">
           No accounts to be shown
@@ -49,7 +49,7 @@ export default function Main(props) {
                 <strong>Address</strong>
               </Table.Cell>
               <Table.Cell width={3}>
-                <strong>Balance</strong>
+                <strong>Reputation</strong>
               </Table.Cell>
             </Table.Row>
             {accounts.map(account => (
@@ -73,9 +73,9 @@ export default function Main(props) {
                   </CopyToClipboard>
                 </Table.Cell>
                 <Table.Cell width={3}>
-                  {balances &&
-                    balances[account.address] &&
-                    balances[account.address]}
+                  {reputation &&
+                    reputation[account.address] &&
+                    reputation[account.address]}
                 </Table.Cell>
               </Table.Row>
             ))}
