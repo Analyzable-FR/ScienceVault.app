@@ -22,6 +22,7 @@ import NodeInfo from './NodeInfo'
 import Transfer from './Transfer'
 import Vault from './Vault'
 import VaultSearch from './VaultSearch'
+import ReputationSearch from './ReputationSearch'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -75,9 +76,10 @@ function Main() {
           </Grid.Row>
           <Grid.Row>
             <Transfer />
-            <Vault />
+            <ReputationSearch />
           </Grid.Row>
           <Grid.Row>
+            <Vault />
             <VaultSearch />
           </Grid.Row>
           <Grid.Row>

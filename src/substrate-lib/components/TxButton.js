@@ -13,6 +13,7 @@ function TxButton({
   disabled = false,
   label,
   setStatus,
+  setStatusRaw,
   style = null,
   type = 'QUERY',
   txOnClickHandler = null,
@@ -159,7 +160,10 @@ function TxButton({
   }
 
   const queryResHandler = result =>
-    result.isNone ? setStatus('None') : setStatus(result.toString())
+    {
+      result.isNone ? setStatus('None') : setStatus(result.toString())
+      setStatusRaw(result)
+    }
 
   const query = async () => {
     const transformed = transformParams(paramFields, inputParams)
