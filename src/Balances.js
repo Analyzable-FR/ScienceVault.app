@@ -17,7 +17,7 @@ export default function Main(props) {
         const reputationMap = addresses.reduce(
           (acc, address, index) => ({
             ...acc,
-            [address]: reputations[index].unwrap().reputation.toHuman(),
+            [address]: reputations[index].unwrapOrDefault().reputation.toHuman(),
           }),
           {}
         )

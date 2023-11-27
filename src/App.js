@@ -21,6 +21,7 @@ import Metadata from './Metadata'
 import NodeInfo from './NodeInfo'
 import Transfer from './Transfer'
 import Vault from './Vault'
+import VaultSearch from './VaultSearch'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -75,6 +76,9 @@ function Main() {
           <Grid.Row>
             <Transfer />
             <Vault />
+          </Grid.Row>
+          <Grid.Row>
+            <VaultSearch />
           </Grid.Row>
           <Grid.Row>
             <Events />

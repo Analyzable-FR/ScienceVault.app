@@ -19,15 +19,19 @@ export default function Main(props) {
     });
   };
 
-  const onHash = (e) => {
-    if (e.target) {
+  const onHash = (e, data) => {
+    if (e.target.type=="file") {
+      document.getElementById('manualHash').value="";
       const promises = [...e.target.files].map((f) => makePromise(f));
       Promise.all(promises).then((a) => {
         const { blake2AsHex } = require('@polkadot/util-crypto');
         const hash = blake2AsHex(a[0], 256, false)
         setHash(hash);
-          console.log(hash);
       });
+    }
+    else {
+      document.getElementById('autoHash').value="";
+      setHash(data.value);
     }
   };
 
@@ -45,7 +49,7 @@ export default function Main(props) {
 
   return (
     <Grid.Column width={8}>
-      <h1>Vault</h1>
+      <h1>Vault Search</h1>
       <Form>
 
         <Form.Field>
@@ -54,31 +58,35 @@ export default function Main(props) {
             label="Element"
             type="file"
             onChange={onHash}
+            id="autoHash"
           />
         </Form.Field>
 
         <Form.Field>
           <Input
             fluid
-            label="Hash"
+            label=" Or Hash"
             type="text"
-            value={hashState}
+            id="manualHash"
+            placeholder={hashState}
+            onChange={onHash}
           />
         </Form.Field>
 
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            label="Submit"
-            type="SIGNED-TX"
+            label="Search"
+            type="QUERY"
             setStatus={setStatus}
             attrs={{
               palletRpc: 'vault',
-              callable: 'addElement',
+              callable: 'vault',
               inputParams: [hashState],
               paramFields: [true],
             }}
           />
         </Form.Field>
+
         <div style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
