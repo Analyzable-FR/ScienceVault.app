@@ -49,7 +49,7 @@ export default function Main(props) {
 
   return (
     <Grid.Column width={8}>
-      <h1>Vault Search</h1>
+      <h1>Search Vault</h1>
       <Form>
 
         <Form.Field>

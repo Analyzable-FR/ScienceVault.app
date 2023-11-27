@@ -16,7 +16,6 @@ import AccountSelector from './AccountSelector'
 import Balances from './Balances'
 import BlockNumber from './BlockNumber'
 import Events from './Events'
-import Interactor from './Interactor'
 import Metadata from './Metadata'
 import NodeInfo from './NodeInfo'
 import Transfer from './Transfer'
@@ -84,7 +83,6 @@ function Main() {
           </Grid.Row>
           <Grid.Row>
             <Events />
-            <Interactor />
           </Grid.Row>
         </Grid>
       </Container>

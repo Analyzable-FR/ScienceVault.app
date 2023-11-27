@@ -33,7 +33,7 @@ export default function Main(props) {
 
   return (
     <Grid.Column>
-      <h1>Reputation</h1>
+      <h1>My Reputation</h1>
       {accounts.length === 0 ? (
         <Label basic color="yellow">
           No accounts to be shown
