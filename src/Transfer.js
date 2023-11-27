@@ -43,12 +43,12 @@ export default function Main(props) {
         </Form.Field>
 
         <Form.Field>
-          <Dropdown
-            placeholder="Select from available addresses"
+          <Input
+            label="Who"
+            type="text"
             fluid
             selection
             search
-            options={availableAccounts}
             state="addressTo"
             onChange={onChange}
           />
