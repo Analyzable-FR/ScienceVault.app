@@ -7,6 +7,11 @@ import { useSubstrateState } from './substrate-lib'
 export default function Main(props) {
   const [status, setStatus] = useState(null);
   const [hashState, setHash] = useState('');
+  const [formState, setFormState] = useState({ owner: '', timestamp: '', sources: '' })
+
+  const onChange = (data) => {
+      setFormState( {owner: data.unwrapOrDefault().owner.toHuman(), timestamp: data.unwrapOrDefault().timestamp.toHuman(), sources: data.unwrapOrDefault().sources.toHuman()} )
+  }
 
  const makePromise = (file) => {
     return new Promise((resolve) => {
@@ -20,7 +25,7 @@ export default function Main(props) {
   };
 
   const onHash = (e, data) => {
-    if (e.target.type=="file") {
+    if (e.target.type==="file") {
       document.getElementById('manualHash').value="";
       const promises = [...e.target.files].map((f) => makePromise(f));
       Promise.all(promises).then((a) => {
@@ -35,6 +40,7 @@ export default function Main(props) {
     }
   };
 
+  const { owner, timestamp, sources } = formState
   const { keyring } = useSubstrateState()
   const accounts = keyring.getPairs()
 
@@ -78,6 +84,7 @@ export default function Main(props) {
             label="Search"
             type="QUERY"
             setStatus={setStatus}
+            setStatusRaw={onChange}
             attrs={{
               palletRpc: 'vault',
               callable: 'vault',
@@ -86,8 +93,35 @@ export default function Main(props) {
             }}
           />
         </Form.Field>
+        <Form.Field>
+          <Input
+            fluid
+            label="Owner"
+            type="text"
+            value={owner}
+            onChange={onChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Input
+            fluid
+            label="Timestamp"
+            type="text"
+            value={timestamp}
+            onChange={onChange}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Input
+            fluid
+            label="Sources"
+            type="text"
+            value={sources}
+            onChange={onChange}
+          />
+        </Form.Field>
 
-        <div style={{ overflowWrap: 'break-word' }}>{status}</div>
+        <div hidden style={{ overflowWrap: 'break-word' }}>{status}</div>
       </Form>
     </Grid.Column>
   )

@@ -45,14 +45,6 @@ export default function Main(props) {
           />
         </Form.Field>
 
-        <Form.Field>
-          <Input
-            fluid
-            label="Reputation"
-            type="text"
-            value={statusRaw}
-          />
-        </Form.Field>
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
             label="Submit"
@@ -65,6 +57,14 @@ export default function Main(props) {
               inputParams: [who],
               paramFields: [true],
             }}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Input
+            fluid
+            label="Reputation"
+            type="text"
+            value={statusRaw}
           />
         </Form.Field>
         <div hidden style={{ overflowWrap: 'break-word' }}>{status}</div>

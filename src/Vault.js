@@ -6,6 +6,7 @@ import { useSubstrateState } from './substrate-lib'
 
 export default function Main(props) {
   const [status, setStatus] = useState(null);
+  const [source, setSource] = useState(null);
   const [hashState, setHash] = useState('');
 
  const makePromise = (file) => {
@@ -26,10 +27,13 @@ export default function Main(props) {
         const { blake2AsHex } = require('@polkadot/util-crypto');
         const hash = blake2AsHex(a[0], 256, false)
         setHash(hash);
-          console.log(hash);
       });
     }
   };
+
+  const onChange = (_, data) => {
+    setSource(data.value)
+  }
 
   const { keyring } = useSubstrateState()
   const accounts = keyring.getPairs()
@@ -66,9 +70,18 @@ export default function Main(props) {
           />
         </Form.Field>
 
+        <Form.Field>
+          <Input
+            fluid
+            label="Source"
+            type="text"
+            onChange={onChange}
+          />
+        </Form.Field>
+
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
-            label="Submit"
+            label="Put Element"
             type="SIGNED-TX"
             setStatus={setStatus}
             attrs={{
@@ -76,6 +89,17 @@ export default function Main(props) {
               callable: 'addElement',
               inputParams: [hashState],
               paramFields: [true],
+            }}
+          />
+          <TxButton
+            label="Add source"
+            type="SIGNED-TX"
+            setStatus={setStatus}
+            attrs={{
+              palletRpc: 'vault',
+              callable: 'setElementSource',
+              inputParams: [hashState, source],
+              paramFields: [true, true],
             }}
           />
         </Form.Field>
