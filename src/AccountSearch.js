@@ -31,7 +31,7 @@ export default function Main(props) {
   })
 
   return (
-    <Grid.Column width={8}>
+    <Grid.Column width={5}>
       <h1>Check Account Elements</h1>
       <Form>
 

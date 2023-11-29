@@ -63,7 +63,7 @@ function Main(props) {
       <Container>
         <Menu.Menu>
           <Image
-            src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`}
+            src={`${process.env.PUBLIC_URL}/assets/logo.png`}
             size="mini"
           />
         </Menu.Menu>

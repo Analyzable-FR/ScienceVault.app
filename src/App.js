@@ -64,26 +64,26 @@ function Main() {
         <AccountSelector />
       </Sticky>
       <Container>
-        <Grid stackable columns="equal">
+        <Grid stackable columns="equal" celled>
           <Grid.Row stretched>
             <NodeInfo />
             <Metadata />
             <BlockNumber />
             <BlockNumber finalized />
           </Grid.Row>
-          <Grid.Row stretched>
+          <Grid.Row stretched centered>
             <Balances />
           </Grid.Row>
-          <Grid.Row>
+          <Grid.Row stretched centered>
             <Transfer />
             <ReputationSearch />
+            <AccountSearch />
           </Grid.Row>
-          <Grid.Row>
+          <Grid.Row stretched centered>
             <Vault />
             <VaultSearch />
           </Grid.Row>
-          <Grid.Row>
-            <AccountSearch />
+          <Grid.Row stretched centered>
             <Events />
           </Grid.Row>
         </Grid>
