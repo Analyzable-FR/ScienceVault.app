@@ -7,6 +7,7 @@ export default function Main(props) {
   const { api, keyring } = useSubstrateState()
   const accounts = keyring.getPairs()
   const [reputation, setReputation] = useState({})
+  const [balances, setBalances] = useState({})
 
   useEffect(() => {
     const addresses = keyring.getPairs().map(account => account.address)
@@ -28,8 +29,25 @@ export default function Main(props) {
       })
       .catch(console.error)
 
+ api.query.system.account
+      .multi(addresses, balances => {
+        const balancesMap = addresses.reduce(
+          (acc, address, index) => ({
+            ...acc,
+            [address]: balances[index].data.free.toNumber()*1e-12 + " SVX",
+          }),
+          {}
+        )
+        setBalances(balancesMap)
+      })
+      .then(unsub => {
+        unsubscribeAll = unsub
+      })
+      .catch(console.error)
+
     return () => unsubscribeAll && unsubscribeAll()
-  }, [api, keyring, setReputation])
+  }, [api, keyring, setReputation, setBalances])
+
 
   return (
     <Grid.Column>
@@ -50,6 +68,9 @@ export default function Main(props) {
               </Table.Cell>
               <Table.Cell width={3}>
                 <strong>Reputation</strong>
+              </Table.Cell>
+              <Table.Cell width={3}>
+                <strong>Balance</strong>
               </Table.Cell>
             </Table.Row>
             {accounts.map(account => (
@@ -76,6 +97,11 @@ export default function Main(props) {
                   {reputation &&
                     reputation[account.address] &&
                     reputation[account.address]}
+                </Table.Cell>
+                <Table.Cell width={3}>
+                  {balances &&
+                    balances[account.address] &&
+                    balances[account.address]}
                 </Table.Cell>
               </Table.Row>
             ))}
