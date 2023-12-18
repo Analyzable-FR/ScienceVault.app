@@ -63,8 +63,8 @@ function Main(props) {
       <Container>
         <Menu.Menu>
           <Image
-            src={`${process.env.PUBLIC_URL}/assets/logo.png`}
-            size="mini"
+            src={`${process.env.PUBLIC_URL}/assets/logo.webp`}
+            size="small"
           />
         </Menu.Menu>
         <Menu.Menu position="right" style={{ alignItems: 'center' }}>
@@ -120,7 +120,7 @@ function BalanceAnnotation(props) {
     currentAccount &&
       api.query.system
         .account(acctAddr(currentAccount), balance =>
-          setAccountBalance(balance.data.free.toHuman())
+          setAccountBalance(balance.data.free.toNumber()*1e-12)
         )
         .then(unsub => (unsubscribe = unsub))
         .catch(console.error)
