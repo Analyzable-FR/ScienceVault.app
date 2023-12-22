@@ -23,6 +23,7 @@ import Vault from './Vault'
 import VaultSearch from './VaultSearch'
 import ReputationSearch from './ReputationSearch'
 import AccountSearch from './AccountSearch'
+import TransferBalances from './TransferBalances'
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -82,6 +83,9 @@ function Main() {
           <Grid.Row stretched centered>
             <Vault />
             <VaultSearch />
+          </Grid.Row>
+          <Grid.Row stretched centered>
+            <TransferBalances />
           </Grid.Row>
           <Grid.Row stretched centered>
             <Events />
